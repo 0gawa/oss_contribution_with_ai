@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_02_013617) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_02_103239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,4 +25,31 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_013617) do
     t.index ["category"], name: "index_menus_on_category"
     t.index ["is_available"], name: "index_menus_on_is_available"
   end
+
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.json "menu_snapshot", null: false
+    t.integer "quantity", null: false
+    t.integer "subtotal", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "table_number"
+    t.integer "total_amount", null: false
+    t.integer "tax_amount", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "ordered_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "order_type", default: 0, null: false
+    t.index ["order_type"], name: "index_orders_on_order_type"
+    t.index ["ordered_at"], name: "index_orders_on_ordered_at"
+    t.index ["status"], name: "index_orders_on_status"
+    t.index ["table_number"], name: "index_orders_on_table_number"
+  end
+
+  add_foreign_key "order_items", "orders"
 end

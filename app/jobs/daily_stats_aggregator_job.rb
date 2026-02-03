@@ -17,12 +17,12 @@ class DailyStatsAggregatorJob < ApplicationJob
   # @param target_date [String] 集計対象日（YYYY-MM-DD形式）
   def perform(target_date)
     date = Date.parse(target_date)
-    
+
     Rails.logger.info "Starting daily stats aggregation for #{date}"
-    
+
     aggregator = DailyStatsAggregator.new(date)
     aggregator.aggregate
-    
+
     Rails.logger.info "Completed daily stats aggregation for #{date}"
   rescue StandardError => e
     Rails.logger.error "Failed to aggregate stats for #{date}: #{e.message}"

@@ -5,21 +5,21 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :admin do
         resources :menus
-        resources :orders, only: [:index, :show] do
+        resources :orders, only: [ :index, :show ] do
           member do
             patch :update_status
           end
         end
-        
+
         namespace :analytics do
           get :daily
           get :summary
         end
       end
-      
+
       namespace :customer do
-        resources :menus, only: [:index, :show]
-        resources :orders, only: [:create] do
+        resources :menus, only: [ :index, :show ]
+        resources :orders, only: [ :create ] do
           member do
             get :summary
           end

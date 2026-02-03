@@ -1,7 +1,7 @@
 class OrderCreator
   attr_reader :order, :errors
 
-  def initialize(table_number:, items:, order_type: 'dine_in', idempotency_key: nil)
+  def initialize(table_number:, items:, order_type: "dine_in", idempotency_key: nil)
     @table_number = table_number
     @items = items
     @order_type = order_type
@@ -13,7 +13,7 @@ class OrderCreator
 
   def call
     return handle_duplicate if duplicate_order_exists?
-    
+
     ActiveRecord::Base.transaction do
       create_order
     end
@@ -49,7 +49,7 @@ class OrderCreator
   end
 
   def handle_deadlock
-    @errors << 'Transaction deadlock detected. Please retry your request.'
+    @errors << "Transaction deadlock detected. Please retry your request."
   end
 
   def create_order
@@ -68,7 +68,7 @@ class OrderCreator
       items: @items,
       order_type: @order_type
     )
-    
+
     validation_result = validator.validate!
     @menus_cache = validation_result[:menus_cache]
   rescue ActiveRecord::RecordInvalid
@@ -78,17 +78,17 @@ class OrderCreator
 
   def build_order_with_items
     calculator = OrderCalculationService.new(items_with_menus)
-    
+
     @order = Order.new(
       table_number: @table_number,
       order_type: @order_type,
       total_amount: calculator.total_amount,
       tax_amount: calculator.tax_amount,
-      status: 'pending',
+      status: "pending",
       ordered_at: Time.current,
       idempotency_key: @idempotency_key
     )
-    
+
     build_order_items(calculator)
   end
 
@@ -113,10 +113,10 @@ class OrderCreator
 
   def menu_snapshot_for(menu)
     {
-      'id' => menu.id,
-      'name' => menu.name,
-      'price' => menu.price,
-      'category' => menu.category
+      "id" => menu.id,
+      "name" => menu.name,
+      "price" => menu.price,
+      "category" => menu.category
     }
   end
 end

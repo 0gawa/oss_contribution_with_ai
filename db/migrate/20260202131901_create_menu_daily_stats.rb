@@ -8,8 +8,8 @@ class CreateMenuDailyStats < ActiveRecord::Migration[7.2]
 
       t.timestamps
     end
-    
-    add_index :menu_daily_stats, [:menu_id, :aggregation_date], unique: true
+
+    add_index :menu_daily_stats, [ :menu_id, :aggregation_date ], unique: true
     add_index :menu_daily_stats, :aggregation_date
   end
 end

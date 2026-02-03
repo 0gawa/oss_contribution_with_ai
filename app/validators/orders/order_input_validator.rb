@@ -16,7 +16,7 @@ module Orders
       validate_items!
       validate_order_type!
       load_and_validate_menus!
-      
+
       {
         menus_cache: @menus_cache,
         errors: @errors
@@ -27,14 +27,14 @@ module Orders
 
     def validate_items!
       return if @items.present?
-      
-      @errors << '注文アイテムが指定されていません'
+
+      @errors << "注文アイテムが指定されていません"
       raise ActiveRecord::RecordInvalid.new
     end
 
     def validate_order_type!
       return if VALID_ORDER_TYPES.include?(@order_type)
-      
+
       @errors << "order_typeは#{VALID_ORDER_TYPES.join(', ')}のいずれかである必要があります"
       raise ActiveRecord::RecordInvalid.new
     end
@@ -56,7 +56,7 @@ module Orders
 
     def validate_menu_availability!(menu)
       return if menu.is_available
-      
+
       @errors << "#{menu.name}は現在注文できません"
       raise ActiveRecord::RecordInvalid.new
     end

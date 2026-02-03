@@ -5,16 +5,16 @@ module Api
         def daily
           stats = MenuDailyStat.includes(:menu)
                                .by_date_range(start_date, end_date)
-          
+
           stats = stats.by_menu(params[:menu_id]) if params[:menu_id].present?
           stats = stats.ordered_by_date
-          
-          render json: stats.as_json(include: { menu: { only: [:id, :name, :category] } })
+
+          render json: stats.as_json(include: { menu: { only: [ :id, :name, :category ] } })
         end
 
         def summary
           stats = MenuDailyStat.by_date_range(start_date, end_date)
-          
+
           render json: {
             start_date: start_date,
             end_date: end_date,

@@ -38,7 +38,7 @@ RSpec.describe DailyStatsAggregator do
 
       it '同じデータで上書きされること' do
         aggregator = DailyStatsAggregator.new(target_date)
-        
+
         aggregator.aggregate
         aggregator.aggregate
 
@@ -70,7 +70,7 @@ RSpec.describe DailyStatsAggregator do
         expect(MenuDailyStat.count).to eq(0)
       end
     end
-    
+
     context 'エッジケース: confirmed状態の注文（ペアワイズ法）' do
       before do
         order = create(:order, status: 'confirmed', ordered_at: target_date.to_time)
@@ -84,13 +84,13 @@ RSpec.describe DailyStatsAggregator do
         expect(MenuDailyStat.count).to eq(0)
       end
     end
-    
+
     context 'エッジケース: 日付境界のテスト' do
       before do
         # 23:59:59の注文
         order1 = create(:order, :completed, :no_items, ordered_at: target_date.to_time + 23.hours + 59.minutes + 59.seconds)
         create(:order_item, order: order1, menu_snapshot: { 'id' => menu1.id }, quantity: 1, subtotal: 1000)
-        
+
         # 00:00:00の注文（翌日）
         next_day = target_date + 1.day
         order2 = create(:order, :completed, :no_items, ordered_at: next_day.to_time)

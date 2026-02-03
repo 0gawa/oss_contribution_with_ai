@@ -61,5 +61,3 @@ end
 group :development do
   gem "annotate"
 end
-
-

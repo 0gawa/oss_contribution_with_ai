@@ -2,7 +2,7 @@ module Api
   module V1
     module Admin
       class MenusController < ApplicationController
-        before_action :set_menu, only: [:show, :update, :destroy]
+        before_action :set_menu, only: [ :show, :update, :destroy ]
 
         def index
           @menus = Menu.all
@@ -49,9 +49,9 @@ module Api
         end
 
         def render_optimistic_lock_error
-          render json: { 
-            error: 'Menu was modified by another request', 
-            code: 'stale_object' 
+          render json: {
+            error: "Menu was modified by another request",
+            code: "stale_object"
           }, status: :conflict
         end
       end

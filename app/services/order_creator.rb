@@ -7,12 +7,11 @@ class OrderCreator
     @order_type = order_type
     @idempotency_key = idempotency_key
     @errors = []
-    @menus_cache = {}
     @is_duplicate = false
   end
 
   def call
-    return handle_duplicate if duplicate_order_exists?
+    return handle_duplicate if duplicate_exists?
 
     ActiveRecord::Base.transaction do
       create_order
@@ -34,27 +33,25 @@ class OrderCreator
 
   private
 
-  def duplicate_order_exists?
-    @idempotency_key.present? && existing_order
+  def duplicate_exists?
+    idempotency_checker.duplicate_exists?
   end
 
-  def existing_order
-    @existing_order ||= Order.find_by(idempotency_key: @idempotency_key)
+  def idempotency_checker
+    @idempotency_checker ||= Orders::IdempotencyChecker.new(@idempotency_key)
   end
 
   def handle_duplicate
-    @order = existing_order
+    @order = idempotency_checker.existing_order
     @is_duplicate = true
     @order
   end
 
-  def handle_deadlock
-    @errors << "Transaction deadlock detected. Please retry your request."
-  end
-
   def create_order
-    validate_and_cache_menus
-    build_order_with_items
+    menus_cache = validate_and_get_menus
+    items_with_menus = build_items_with_menus(menus_cache)
+
+    @order = order_builder(items_with_menus).build
     @order.save!
     @order
   rescue ActiveRecord::RecordInvalid => e
@@ -62,7 +59,7 @@ class OrderCreator
     raise
   end
 
-  def validate_and_cache_menus
+  def validate_and_get_menus
     validator = Orders::OrderInputValidator.new(
       table_number: @table_number,
       items: @items,
@@ -70,53 +67,31 @@ class OrderCreator
     )
 
     validation_result = validator.validate!
-    @menus_cache = validation_result[:menus_cache]
+    validation_result[:menus_cache]
   rescue ActiveRecord::RecordInvalid
     @errors = validator.errors
     raise
   end
 
-  def build_order_with_items
-    calculator = OrderCalculationService.new(items_with_menus)
-
-    @order = Order.new(
-      table_number: @table_number,
-      order_type: @order_type,
-      total_amount: calculator.total_amount,
-      tax_amount: calculator.tax_amount,
-      status: "pending",
-      ordered_at: Time.current,
-      idempotency_key: @idempotency_key
-    )
-
-    build_order_items(calculator)
-  end
-
-  def items_with_menus
+  def build_items_with_menus(menus_cache)
     @items.map do |item_data|
       {
-        menu: @menus_cache[item_data[:menu_id]],
+        menu: menus_cache[item_data[:menu_id]],
         quantity: item_data[:quantity]
       }
     end
   end
 
-  def build_order_items(calculator)
-    items_with_menus.each do |item|
-      @order.order_items.build(
-        menu_snapshot: menu_snapshot_for(item[:menu]),
-        quantity: item[:quantity],
-        subtotal: calculator.item_subtotal(item[:menu], item[:quantity])
-      )
-    end
+  def order_builder(items_with_menus)
+    Orders::OrderBuilder.new(
+      table_number: @table_number,
+      order_type: @order_type,
+      items_with_menus: items_with_menus,
+      idempotency_key: @idempotency_key
+    )
   end
 
-  def menu_snapshot_for(menu)
-    {
-      "id" => menu.id,
-      "name" => menu.name,
-      "price" => menu.price,
-      "category" => menu.category
-    }
+  def handle_deadlock
+    @errors << "Transaction deadlock detected. Please retry your request."
   end
 end

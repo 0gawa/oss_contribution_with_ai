@@ -64,7 +64,7 @@ RSpec.configure do |config|
               created_at: { type: :string, format: 'date-time' },
               updated_at: { type: :string, format: 'date-time' }
             },
-            required: ['id', 'name', 'price', 'category', 'is_available', 'lock_version', 'created_at', 'updated_at']
+            required: [ 'id', 'name', 'price', 'category', 'is_available', 'lock_version', 'created_at', 'updated_at' ]
           },
           OrderItem: {
             type: :object,
@@ -80,12 +80,12 @@ RSpec.configure do |config|
                   price: { type: :integer },
                   category: { type: :string }
                 },
-                required: ['id', 'name', 'price', 'category']
+                required: [ 'id', 'name', 'price', 'category' ]
               },
               created_at: { type: :string, format: 'date-time' },
               updated_at: { type: :string, format: 'date-time' }
             },
-            required: ['id', 'quantity', 'subtotal', 'menu_snapshot']
+            required: [ 'id', 'quantity', 'subtotal', 'menu_snapshot' ]
           },
           Order: {
             type: :object,
@@ -111,7 +111,7 @@ RSpec.configure do |config|
                 items: { '$ref' => '#/components/schemas/OrderItem' }
               }
             },
-            required: ['id', 'order_type', 'total_amount', 'tax_amount', 'status', 'ordered_at']
+            required: [ 'id', 'order_type', 'total_amount', 'tax_amount', 'status', 'ordered_at' ]
           },
           MenuDailyStat: {
             type: :object,
@@ -124,7 +124,7 @@ RSpec.configure do |config|
               created_at: { type: :string, format: 'date-time' },
               updated_at: { type: :string, format: 'date-time' }
             },
-            required: ['id', 'menu_id', 'aggregation_date', 'total_quantity', 'total_sales_amount', 'created_at', 'updated_at']
+            required: [ 'id', 'menu_id', 'aggregation_date', 'total_quantity', 'total_sales_amount', 'created_at', 'updated_at' ]
           },
           Error: {
             type: :object,
@@ -138,7 +138,7 @@ RSpec.configure do |config|
                   details: { type: :object },
                   timestamp: { type: :string, format: 'date-time' }
                 },
-                required: ['status', 'code', 'message', 'timestamp']
+                required: [ 'status', 'code', 'message', 'timestamp' ]
               }
             }
           },
@@ -151,7 +151,7 @@ RSpec.configure do |config|
               total_quantity: { type: :integer },
               unique_menus_count: { type: :integer }
             },
-            required: ['start_date', 'end_date', 'total_sales_amount', 'total_quantity', 'unique_menus_count']
+            required: [ 'start_date', 'end_date', 'total_sales_amount', 'total_quantity', 'unique_menus_count' ]
           }
         }
       },

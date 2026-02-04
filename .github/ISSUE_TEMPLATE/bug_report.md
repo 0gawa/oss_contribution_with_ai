@@ -1,32 +1,34 @@
 ---
-name: バグ報告
-about: バグを報告する
+name: Bug Report
+about: Create a report to help us improve
 title: '[BUG] '
 labels: bug
 assignees: ''
+
 ---
 
-## バグの説明
-<!-- バグの内容を簡潔に説明してください -->
+## 🐛 Bug Description
+<!-- A clear and concise description of what the bug is. -->
 
-## 再現手順
+## 📋 Steps to Reproduce
 1. 
 2. 
 3. 
 
-## 期待される動作
-<!-- 本来どのように動作すべきかを説明してください -->
+## 🎯 Expected Behavior
+<!-- A clear and concise description of what you expected to happen. -->
 
-## 実際の動作
-<!-- 実際にどのように動作したかを説明してください -->
+## ⚠️ Actual Behavior
+<!-- A clear and concise description of what actually happened. -->
 
-## 環境
+## 💻 Environment
 - OS: 
-- Ruby バージョン: 
-- Rails バージョン: 
+- Ruby Version: 
+- Rails Version: 
+- Docker/Docker Compose Version: 
 
-## スクリーンショット
-<!-- もしあれば、スクリーンショットを追加してください -->
+## 📸 Screenshots / Logs
+<!-- If applicable, add screenshots or logs to help explain your problem. -->
 
-## 追加情報
-<!-- その他、参考になる情報があれば記載してください -->
+## ➕ Additional Context
+<!-- Add any other context about the problem here. -->

@@ -32,10 +32,10 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-
-# .agent/
-# /context/
-# /docs/
+# Don't Erase
+.agent/
+/context/
+/docs/
 
 
 # Antigravity artifacts (AI assistant working directory)

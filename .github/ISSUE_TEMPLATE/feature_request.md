@@ -1,22 +1,23 @@
 ---
-name: 機能リクエスト
-about: 新しい機能を提案する
+name: Feature Request
+about: Suggest an idea for this project
 title: '[FEATURE] '
 labels: enhancement
 assignees: ''
+
 ---
 
-## 機能の説明
-<!-- 実装したい機能を簡潔に説明してください -->
+## 🚀 Feature Description
+<!-- A clear and concise description of what the feature is. -->
 
-## 動機・背景
-<!-- なぜこの機能が必要なのかを説明してください -->
+## 💡 Problem Solved
+<!-- Is your feature request related to a problem? Please describe. -->
 
-## 提案する解決策
-<!-- どのように実装するかのアイデアがあれば記載してください -->
+## 🎯 Proposed Solution
+<!-- A clear and concise description of what you want to happen. -->
 
-## 代替案
-<!-- 他に考えられる実装方法があれば記載してください -->
+## Alternatives Considered
+<!-- A clear and concise description of any alternative solutions or features you've considered. -->
 
-## 追加情報
-<!-- その他、参考になる情報があれば記載してください -->
+## ➕ Additional Context
+<!-- Add any other context or screenshots about the feature request here. -->

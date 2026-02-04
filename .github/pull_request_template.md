@@ -1,31 +1,32 @@
-## 概要
-<!-- この PR で何を実現するのか、簡潔に説明してください -->
+## 📝 Description
+<!-- A brief description of what this PR accomplishes. -->
 
-## 変更内容
-<!-- 主な変更点をリストアップしてください -->
+## 🔄 Changes
+<!-- List the major changes in this PR. -->
 - 
 - 
 - 
 
-## 関連Issue
-<!-- 該当する Issue があれば記載してください -->
+## 🔗 Related Issues
+<!-- Links to related issues. Use keywords like Closes #1, Fixes #2. -->
 Closes #
 
-## テスト方法
-<!-- この変更をどのようにテストしたか説明してください -->
-- [ ] RSpec テストが通ることを確認
-- [ ] 手動テストの実施内容:
+## 🧪 Testing
+<!-- How was this tested? -->
+- [ ] RSpec tests passing
+- [ ] Manual testing performed:
+  - 
 
-## チェックリスト
-- [ ] コードは自己レビュー済み
-- [ ] 必要に応じてテストを追加/更新した
-- [ ] ドキュメントを更新した（必要な場合）
-- [ ] RuboCop の警告がない
-- [ ] Brakeman のセキュリティ警告がない
-- [ ] データベースマイグレーションが必要な場合、ロールバック可能であることを確認
+## ✅ Checklist
+- [ ] Code is self-reviewed
+- [ ] Added/Updated tests for new/changed functionality
+- [ ] Updated documentation (if applicable)
+- [ ] No RuboCop offenses
+- [ ] No Brakeman security warnings
+- [ ] Confirmed database migrations are reversible (if any)
 
-## スクリーンショット（該当する場合）
-<!-- UI の変更がある場合、スクリーンショットを追加してください -->
+## 📸 Screenshots (if applicable)
+<!-- Add screenshots for UI changes. -->
 
-## 追加コメント
-<!-- レビュアーに伝えたいことがあれば記載してください -->
+## ➕ Additional Comments
+<!-- Any other information for reviewers. -->

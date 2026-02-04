@@ -38,7 +38,7 @@ RSpec.describe 'Admin Menus API', type: :request do
               is_available: { type: :boolean, example: true },
               image_url: { type: :string, example: 'https://example.com/menu.jpg', nullable: true }
             },
-            required: ['name', 'price', 'category']
+            required: [ 'name', 'price', 'category' ]
           }
         }
       }
@@ -133,8 +133,8 @@ RSpec.describe 'Admin Menus API', type: :request do
       response '200', 'menu updated' do
         schema '$ref' => '#/components/schemas/Menu'
 
-        let!(:menu) { create(:menu, name: 'Original Name') }
-        let(:id) { menu.id }
+        let!(:menu_record) { create(:menu, name: 'Original Name') }
+        let(:id) { menu_record.id }
         let(:menu) { { menu: { name: 'Updated Name' } } }
 
         run_test! do |response|

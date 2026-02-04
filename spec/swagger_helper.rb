@@ -43,7 +43,7 @@ RSpec.configure do |config|
           variables: {
             environment: {
               default: 'api',
-              enum: ['api', 'staging']
+              enum: [ 'api', 'staging' ]
             }
           },
           description: 'Production servers'
@@ -64,15 +64,13 @@ RSpec.configure do |config|
               created_at: { type: :string, format: 'date-time' },
               updated_at: { type: :string, format: 'date-time' }
             },
-            required: ['id', 'name', 'price', 'category', 'is_available']
+            required: ['id', 'name', 'price', 'category', 'is_available', 'lock_version', 'created_at', 'updated_at']
           },
           OrderItem: {
             type: :object,
             properties: {
               id: { type: :integer, example: 1 },
-              menu_id: { type: :integer, example: 1 },
               quantity: { type: :integer, example: 2 },
-              unit_price: { type: :integer, example: 1200 },
               subtotal: { type: :integer, example: 2400 },
               menu_snapshot: {
                 type: :object,
@@ -81,10 +79,13 @@ RSpec.configure do |config|
                   name: { type: :string },
                   price: { type: :integer },
                   category: { type: :string }
-                }
-              }
+                },
+                required: ['id', 'name', 'price', 'category']
+              },
+              created_at: { type: :string, format: 'date-time' },
+              updated_at: { type: :string, format: 'date-time' }
             },
-            required: ['menu_id', 'quantity']
+            required: ['id', 'quantity', 'subtotal', 'menu_snapshot']
           },
           Order: {
             type: :object,
@@ -93,14 +94,14 @@ RSpec.configure do |config|
               table_number: { type: :string, example: 'A-1', nullable: true },
               order_type: {
                 type: :string,
-                enum: ['dine_in', 'takeout', 'delivery'],
+                enum: [ 'dine_in', 'takeout', 'delivery' ],
                 example: 'dine_in'
               },
               total_amount: { type: :integer, example: 2640 },
               tax_amount: { type: :integer, example: 240 },
               status: {
                 type: :string,
-                enum: ['pending', 'confirmed', 'completed'],
+                enum: [ 'pending', 'confirmed', 'completed' ],
                 example: 'pending'
               },
               ordered_at: { type: :string, format: 'date-time' },
@@ -110,18 +111,20 @@ RSpec.configure do |config|
                 items: { '$ref' => '#/components/schemas/OrderItem' }
               }
             },
-            required: ['id', 'order_type', 'total_amount', 'tax_amount', 'status']
+            required: ['id', 'order_type', 'total_amount', 'tax_amount', 'status', 'ordered_at']
           },
           MenuDailyStat: {
             type: :object,
             properties: {
               id: { type: :integer },
               menu_id: { type: :integer },
-              target_date: { type: :string, format: 'date' },
+              aggregation_date: { type: :string, format: 'date' },
               total_quantity: { type: :integer, example: 15 },
               total_sales_amount: { type: :integer, example: 18000 },
-              menu: { '$ref' => '#/components/schemas/Menu' }
-            }
+              created_at: { type: :string, format: 'date-time' },
+              updated_at: { type: :string, format: 'date-time' }
+            },
+            required: ['id', 'menu_id', 'aggregation_date', 'total_quantity', 'total_sales_amount', 'created_at', 'updated_at']
           },
           Error: {
             type: :object,
@@ -138,6 +141,17 @@ RSpec.configure do |config|
                 required: ['status', 'code', 'message', 'timestamp']
               }
             }
+          },
+          Summary: {
+            type: :object,
+            properties: {
+              start_date: { type: :string, format: 'date' },
+              end_date: { type: :string, format: 'date' },
+              total_sales_amount: { type: :integer },
+              total_quantity: { type: :integer },
+              unique_menus_count: { type: :integer }
+            },
+            required: ['start_date', 'end_date', 'total_sales_amount', 'total_quantity', 'unique_menus_count']
           }
         }
       },

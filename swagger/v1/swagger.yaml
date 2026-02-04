@@ -80,29 +80,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  start_date:
-                    type: string
-                    format: date
-                  end_date:
-                    type: string
-                    format: date
-                  total_sales_amount:
-                    type: integer
-                    example: 50000
-                  total_quantity:
-                    type: integer
-                    example: 42
-                  unique_menus_count:
-                    type: integer
-                    example: 5
-                required:
-                - start_date
-                - end_date
-                - total_sales_amount
-                - total_quantity
-                - unique_menus_count
+                "$ref": "#/components/schemas/Summary"
   "/api/v1/admin/menus":
     get:
       summary: List all menus
@@ -532,21 +510,18 @@ components:
       - price
       - category
       - is_available
+      - lock_version
+      - created_at
+      - updated_at
     OrderItem:
       type: object
       properties:
         id:
           type: integer
           example: 1
-        menu_id:
-          type: integer
-          example: 1
         quantity:
           type: integer
           example: 2
-        unit_price:
-          type: integer
-          example: 1200
         subtotal:
           type: integer
           example: 2400
@@ -561,9 +536,22 @@ components:
               type: integer
             category:
               type: string
+          required:
+          - id
+          - name
+          - price
+          - category
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
       required:
-      - menu_id
+      - id
       - quantity
+      - subtotal
+      - menu_snapshot
     Order:
       type: object
       properties:
@@ -611,6 +599,7 @@ components:
       - total_amount
       - tax_amount
       - status
+      - ordered_at
     MenuDailyStat:
       type: object
       properties:
@@ -618,7 +607,7 @@ components:
           type: integer
         menu_id:
           type: integer
-        target_date:
+        aggregation_date:
           type: string
           format: date
         total_quantity:
@@ -627,8 +616,20 @@ components:
         total_sales_amount:
           type: integer
           example: 18000
-        menu:
-          "$ref": "#/components/schemas/Menu"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - menu_id
+      - aggregation_date
+      - total_quantity
+      - total_sales_amount
+      - created_at
+      - updated_at
     Error:
       type: object
       properties:
@@ -654,6 +655,27 @@ components:
           - code
           - message
           - timestamp
+    Summary:
+      type: object
+      properties:
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        total_sales_amount:
+          type: integer
+        total_quantity:
+          type: integer
+        unique_menus_count:
+          type: integer
+      required:
+      - start_date
+      - end_date
+      - total_sales_amount
+      - total_quantity
+      - unique_menus_count
 tags:
 - name: Customer - Menus
   description: Customer-facing menu operations

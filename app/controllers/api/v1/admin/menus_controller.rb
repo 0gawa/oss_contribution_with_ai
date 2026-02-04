@@ -17,7 +17,7 @@ module Api
           menu = Menu.new(menu_params)
 
           if menu.save
-            render json: menu, status: :created
+            render json: menu.as_json, status: :created
           else
             raise ActiveRecord::RecordInvalid.new(menu)
           end
@@ -25,7 +25,7 @@ module Api
 
         def update
           if @menu.update(menu_params)
-            render json: @menu
+            render json: @menu.as_json
           else
             raise ActiveRecord::RecordInvalid.new(@menu)
           end

@@ -9,7 +9,9 @@ module Api
           stats = stats.by_menu(params[:menu_id]) if params[:menu_id].present?
           stats = stats.ordered_by_date
 
-          render json: stats.as_json(include: { menu: { only: [ :id, :name, :category ] } })
+          render json: stats.as_json(include: { 
+            menu: { only: [ :id, :name, :category ] }
+          })
         end
 
         def summary

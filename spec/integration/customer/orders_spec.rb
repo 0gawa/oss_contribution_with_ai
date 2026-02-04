@@ -23,7 +23,7 @@ RSpec.describe 'Customer Orders API', type: :request do
               table_number: { type: :string, example: 'A-1' },
               order_type: {
                 type: :string,
-                enum: ['dine_in', 'takeout', 'delivery'],
+                enum: [ 'dine_in', 'takeout', 'delivery' ],
                 example: 'dine_in'
               },
               items: {
@@ -34,14 +34,14 @@ RSpec.describe 'Customer Orders API', type: :request do
                     menu_id: { type: :integer, example: 1 },
                     quantity: { type: :integer, example: 2 }
                   },
-                  required: ['menu_id', 'quantity']
+                  required: [ 'menu_id', 'quantity' ]
                 }
               }
             },
-            required: ['items']
+            required: [ 'items' ]
           }
         },
-        required: ['order']
+        required: [ 'order' ]
       }
 
       response '201', 'order created' do
@@ -78,7 +78,7 @@ RSpec.describe 'Customer Orders API', type: :request do
         let(:order) do
           {
             order: {
-              items: [{ menu_id: menu.id, quantity: 1 }]
+              items: [ { menu_id: menu.id, quantity: 1 } ]
             }
           }
         end
@@ -97,7 +97,7 @@ RSpec.describe 'Customer Orders API', type: :request do
           let(:order) do
             {
               order: {
-                items: [{ menu_id: menu.id, quantity: 1 }]
+                items: [ { menu_id: menu.id, quantity: 1 } ]
               }
             }
           end
@@ -113,7 +113,7 @@ RSpec.describe 'Customer Orders API', type: :request do
           let(:order) do
             {
               order: {
-                items: [{ menu_id: 99999, quantity: 1 }]
+                items: [ { menu_id: 99999, quantity: 1 } ]
               }
             }
           end
@@ -188,7 +188,7 @@ RSpec.describe 'Customer Orders API', type: :request do
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(data['id']).to eq(order_record.id)
-          expect(data['order_items'].length).to eq(2)
+          expect(data['order_items'].length).to eq(order_record.order_items.count)
         end
       end
 

@@ -46,7 +46,7 @@ RSpec.describe '楽観的ロック (Optimistic Locking)', type: :request do
 
         # 実装方針によるが、StaleObjectErrorを防ぐために必須とするのが一般的
         # ここでは422または400を期待
-        expect(response.status).to be_in([400, 422])
+        expect(response.status).to be_in([ 400, 422 ])
         json_response = JSON.parse(response.body)
         expect(json_response['error']['code']).to eq('MISSING_LOCK_VERSION')
       end

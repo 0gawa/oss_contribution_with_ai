@@ -31,10 +31,25 @@ class OrderCreator
     @is_duplicate
   end
 
+  def idempotency_mismatch?
+    @idempotency_mismatch
+  end
+
   private
 
   def duplicate_exists?
-    idempotency_checker.duplicate_exists?
+    return false unless idempotency_checker.duplicate_exists?
+
+    if idempotency_checker.params_match?({
+      table_number: @table_number,
+      order_type: @order_type,
+      items: @items
+    })
+      true
+    else
+      @idempotency_mismatch = true
+      false
+    end
   end
 
   def idempotency_checker
@@ -49,9 +64,14 @@ class OrderCreator
 
   def create_order
     menus_cache = validate_and_get_menus
-    items_with_menus = build_items_with_menus(menus_cache)
 
-    @order = order_builder(items_with_menus).build
+    @order = Orders::OrderBuilder.new(
+      table_number: @table_number,
+      order_type: @order_type,
+      items: @items,
+      menus_cache: menus_cache,
+      idempotency_key: @idempotency_key
+    ).build
     @order.save!
     @order
   rescue ActiveRecord::RecordInvalid => e
@@ -66,29 +86,11 @@ class OrderCreator
       order_type: @order_type
     )
 
-    validation_result = validator.validate!
-    validation_result[:menus_cache]
+    result = validator.validate!
+    result[:menus_cache]
   rescue ActiveRecord::RecordInvalid
     @errors = validator.errors
     raise
-  end
-
-  def build_items_with_menus(menus_cache)
-    @items.map do |item_data|
-      {
-        menu: menus_cache[item_data[:menu_id]],
-        quantity: item_data[:quantity]
-      }
-    end
-  end
-
-  def order_builder(items_with_menus)
-    Orders::OrderBuilder.new(
-      table_number: @table_number,
-      order_type: @order_type,
-      items_with_menus: items_with_menus,
-      idempotency_key: @idempotency_key
-    )
   end
 
   def handle_deadlock

@@ -93,7 +93,7 @@ RSpec.describe '冪等性キー (Idempotency Key)', type: :request do
              as: :json
 
         # 実装によっては409 Conflictや422 Unprocessable Entityを返す
-        expect(response.status).to be_in([409, 422])
+        expect(response.status).to be_in([ 409, 422 ])
         json_response = JSON.parse(response.body)
         expect(json_response['error']['code']).to eq('IDEMPOTENCY_KEY_MISMATCH')
       end

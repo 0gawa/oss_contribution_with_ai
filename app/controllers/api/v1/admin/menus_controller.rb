@@ -27,8 +27,8 @@ module Api
           if params.dig(:menu, :lock_version).blank?
             render_custom_error(
               status: :unprocessable_entity,
-              code: 'MISSING_LOCK_VERSION',
-              message: 'lock_version is required for updating menu'
+              code: "MISSING_LOCK_VERSION",
+              message: "lock_version is required for updating menu"
             )
             return
           end
@@ -41,8 +41,8 @@ module Api
         rescue ActiveRecord::StaleObjectError
           render_custom_error(
             status: :conflict,
-            code: 'STALE_OBJECT',
-            message: 'The menu has been modified by another request'
+            code: "STALE_OBJECT",
+            message: "The menu has been modified by another request"
           )
         end
 

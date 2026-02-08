@@ -8,8 +8,8 @@ class Api::V1::Customer::OrdersController < ApplicationController
     elsif creator.idempotency_mismatch?
       render_custom_error(
         status: :unprocessable_entity, # or :conflict depending on preference
-        code: 'IDEMPOTENCY_KEY_MISMATCH',
-        message: 'Idempotency key keys does not match the request parameters'
+        code: "IDEMPOTENCY_KEY_MISMATCH",
+        message: "Idempotency key keys does not match the request parameters"
       )
     else
       render_order_errors(creator)

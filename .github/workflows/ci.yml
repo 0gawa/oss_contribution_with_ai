@@ -83,7 +83,7 @@ jobs:
         run: bundle exec rspec --format documentation --exclude-pattern "spec/requests/**/*_spec.rb"
 
       - name: Upload RSpec results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: rspec-others-results
@@ -136,7 +136,7 @@ jobs:
         run: bundle exec rspec --format documentation spec/requests
 
       - name: Upload RSpec results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: rspec-requests-results
